@@ -5,7 +5,7 @@ const AgentCard = ({ agent }) => {
         {agent.name} - [{agent.stuff}]
       </h2>
       <p>{agent.bio}</p>
-      <span>{agent.evalution}</span>
+      <span>{agent.evaluation}</span>
     </div>
   );
 };

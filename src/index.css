@@ -5,13 +5,21 @@ margin: 0;
 box-sizing: border-box;
 font-family: 'Courier New', Courier, monospace;
 }
+
+.parent-page
+{
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+
 /* NAV */
 
 nav{
     background-color: rgb(83, 226, 226);
-    padding: 10px;
+    padding: 10px 30px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
 }
@@ -65,5 +73,56 @@ box-shadow: 0px 10px 0px rgba(44, 42, 42, 0.6);
 
 .agent-card p {
     font-family: Georgia, Times, 'Times New Roman', serif;
+}
 
+
+/*------------------------------Create ------------------------ */
+
+.create-parent
+{
+    padding: 15px;
+    margin: 100px auto;
+}
+
+.create-parent h1 {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.create-parent form {
+    width: 55%;
+    min-height: 250px;
+    margin: 0 auto;
+    padding: 1rem;
+    box-shadow: 5px 5px 10px rgab(255,255,255,.3);
+}
+
+.form-field
+{
+    margin: 1rem 0;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.form-field input,
+.form-field textarea {
+    width: 100%;
+    padding: .75rem 1rem;
+}
+
+.form-field textarea{
+resize: none;
+}
+
+.form-field:last-child button
+{
+    margin-top: 1rem;
+    padding:.75rem 1.5rem;
+    width: 100%;
+    font-weight: 900;
+    font-family: cursive;
+    cursor: pointer;
 }
