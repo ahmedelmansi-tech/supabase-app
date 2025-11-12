@@ -37,6 +37,7 @@ const Create = () => {
       }
 
       navigate("/");
+      toast.success("Agent data added successfuly ");
     }
   };
 
