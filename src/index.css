@@ -16,7 +16,8 @@ font-family: 'Courier New', Courier, monospace;
 /* NAV */
 
 nav{
-    background-color: rgb(83, 226, 226);
+    background-color: #EEE;
+    box-shadow: 0px 0px 10px rgba(44, 42, 42, 0.6);
     padding: 10px 30px;
     display: flex;
     justify-content: space-between;
@@ -51,6 +52,39 @@ nav{
 .home-container
 {
     padding: 1.3rem; 
+}
+
+.btns{
+    background-color:#eee;
+    padding: 1rem;
+    margin-bottom: 35px;
+    box-shadow: 0px 0px 10px rgba(44, 42, 42, 0.6);
+}
+
+.btns span:nth-child(1){
+    margin: 1rem;
+}
+
+.btns button{
+    padding: .6rem 1.5rem;
+    cursor: pointer;
+    font-family: sans-serif;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+    transition:transform  .1s;
+}
+
+.btns button:hover{
+    background: #987;
+    color: #EFEFEE;
+}
+.btns button:active{
+    transform: scaleX(.8);
+}
+
+
+.btns button:not(:last-child){
+    margin-right: 50px;
 }
 
 .agent-card{
