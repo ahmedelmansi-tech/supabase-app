@@ -66,7 +66,7 @@ const AgentPage = () => {
         return;
       }
 
-      navigate("/");
+      navigate("/home");
       toast.success("Data Updated successfuly 🚀");
     }
   };

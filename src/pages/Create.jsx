@@ -7,6 +7,7 @@ const Create = () => {
   const [stuff, setStuff] = useState(null);
   const [bio, setBio] = useState("");
   const [evaluation, setEvaluation] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const navigate = useNavigate("");
 
@@ -19,16 +20,47 @@ const Create = () => {
     if (name === "evalution") setEvaluation(value);
   };
 
+  // Image
+
+  const handleImageChange = (e) => {
+    if (e.target.files) {
+      setImageUrl(e.target.files[0]);
+    }
+  };
+
+  const uploadImage = async (file) => {
+    const filePath = `${file.name}-${Date.now()}`;
+
+    const { error: uploadingImageError } = await supabase.storage
+      .from("agents pic")
+      .upload(filePath, file);
+
+    if (uploadingImageError) {
+      console.error("uploading Error", uploadingImageError);
+      return;
+    }
+
+    const { data } = await supabase.storage
+      .from("agents pic")
+      .getPublicUrl(filePath);
+    return data.publicUrl;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !stuff || !bio || !evaluation) {
+    let pubUrl = null;
+    if (imageUrl) {
+      pubUrl = await uploadImage(imageUrl);
+    }
+
+    if (!name || !stuff || !bio || !evaluation || !imageUrl) {
       toast.error("please fill in all feilds");
       return;
     } else {
       const { data, error } = await supabase
         .from("agents")
-        .insert([{ name, stuff, bio, evaluation }]);
+        .insert([{ name, stuff, bio, evaluation, image_url: pubUrl }]);
 
       if (error) {
         toast.error("Something went Wrong");
@@ -36,7 +68,7 @@ const Create = () => {
         return;
       }
 
-      navigate("/");
+      navigate("/home");
       toast.success("Agent data added successfuly ");
     }
   };
@@ -87,7 +119,7 @@ const Create = () => {
           </section>
 
           <section className="form-field">
-            <label htmlFor="bio">Evaluation</label>
+            <label htmlFor="evalution">Evaluation</label>
             <input
               type="number"
               name="evalution"
@@ -98,6 +130,18 @@ const Create = () => {
               max={10}
               step={1}
               onChange={handleChange}
+            />
+          </section>
+
+          <section className="form-field">
+            <label htmlFor="profile">Profile</label>
+            <input
+              type="file"
+              accept="images/*"
+              name="profile"
+              id="profile"
+              // value={evaluation || ""}
+              onChange={handleImageChange}
             />
           </section>
 

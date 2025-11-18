@@ -26,6 +26,9 @@ const AgentCard = ({ agent, ondelete }) => {
 
   return (
     <div className="agent-card">
+      <div className="avatar">
+        <img src={agent.image_url} alt="user" />
+      </div>
       <h2>
         {agent.name} - [{agent.stuff}]
       </h2>

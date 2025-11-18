@@ -5,12 +5,34 @@ const HomePage = () => {
   const [agents, setAgents] = useState(null);
   const [err, setErr] = useState(null);
   const [order, setOrder] = useState("created_at");
+  const [session, setSesson] = useState(null);
 
   const deleteCard = (id) => {
     setAgents((prev) => {
       return prev.filter((reb) => reb.id !== id);
     });
   };
+
+  const arrangeName = async () => {
+    const { data, error } = await supabase
+      .from("agents")
+      .select("name ,evaluation")
+      .order("evaluation", { ascending: false });
+
+    if (data) {
+      console.log(data);
+    }
+  };
+
+  useEffect(() => {
+    const news = async () => {
+      const { data } = await supabase.auth.getSession();
+      console.log("NEWS FUNC RETURN ", data.session);
+      setSesson(data.session);
+    };
+
+    news();
+  }, []);
 
   useEffect(() => {
     const getAgents = async () => {
@@ -21,34 +43,44 @@ const HomePage = () => {
 
       if (error) {
         setErr("Failed to Fetch Data");
-        console.log(error);
+        // console.log(error);
         setAgents(null);
       }
       if (data) {
         setAgents(data);
-        console.log(data);
+        // console.log(data);
         setErr(null);
       }
     };
 
-    getAgents();
-  }, [order]);
+    if (session) {
+      getAgents();
+    } else {
+      setSesson(null);
+    }
+    arrangeName();
+  }, [order, session]);
 
-  {
-    console.log(order);
-  }
   return (
     <div className="home-container">
       <div className="btns">
         <span>Order - By :</span>
-        <button onClick={() => setOrder("created_at")}>Time</button>
+        <button
+          onClick={function () {
+            setOrder("created_at");
+            this.classList.add("active");
+          }}
+        >
+          Time
+        </button>
         <button onClick={() => setOrder("name")}>name</button>
         <button onClick={() => setOrder("evaluation")}>Evaluation</button>
       </div>
 
       <div className="agents-display grid">
         {err && <p> {err} </p>}
-        {Array.isArray(agents) && agents.length <= 0 && <p>No Data Found</p>}
+        {(!session && <p>Log in to See what's new</p>) ||
+          (Array.isArray(agents) && agents.length <= 0 && <p>No Data Found</p>)}
         {agents &&
           agents.map((reb) => {
             return <AgentCard key={reb.id} agent={reb} ondelete={deleteCard} />;

@@ -5,16 +5,19 @@ import HomePage from "./pages/HomePage";
 import Create from "./pages/Create";
 import AgentPage from "./pages/AgentPage";
 import Nav from "./components/Nav";
+import Login from "./pages/Login";
+
 function App() {
   return (
     <BrowserRouter>
       <div className="parent-page">
         <Nav />
         <Routes>
-          <Route path="/login" element={<AuthPage />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/:id" element={<AgentPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<AuthPage />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/create" element={<Create />} />
+          <Route path="/:id" element={<AgentPage />} />
         </Routes>
       </div>
       <ToastContainer />

@@ -1,14 +1,14 @@
-import { FaUserAlt } from "react-icons/fa";
+import { FaSignOutAlt } from "react-icons/fa";
 import supabase from "../assets/supabaseClient";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AuthPage = () => {
+const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [ps, setPs] = useState("");
 
-  // ----------FUNCTIONS--------------------//
+  //   ---------------- FUNC --------------   //
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,37 +16,36 @@ const AuthPage = () => {
     if (name === "password") setPs(value);
   };
 
-  const sendAuth = async (e) => {
+  const logIn = async (e) => {
     e.preventDefault();
-    console.log("new User", { password: ps, email });
 
-    if (email === "" || ps === "") {
-      return;
-    }
-
-    const { data, error: errorWhileSignUp } = await supabase.auth.signUp({
+    const user = {
       email,
       password: ps,
-    });
+    };
 
-    if (errorWhileSignUp) {
-      console.log(errorWhileSignUp);
+    const { data, error: erroWhileLogin } =
+      await supabase.auth.signInWithPassword(user);
+
+    if (erroWhileLogin) {
+      console.error("while logging in", erroWhileLogin);
     }
 
     if (data) {
+      console.log("data >>", data);
       navigate("/home");
     }
-    console.log(data);
   };
 
   return (
     <div className="auth-wrapper-auth">
       <h1>
-        Welcome <FaUserAlt size={30} />
+        Log in{" "}
+        <FaSignOutAlt size={30} style={{ transform: "translateY(10px)" }} />
       </h1>
 
       <div className="form-wrapper">
-        <form onSubmit={sendAuth}>
+        <form onSubmit={logIn}>
           <section className="form-field">
             <label htmlFor="bio">Email</label>
             <input
@@ -68,7 +67,7 @@ const AuthPage = () => {
           </section>
 
           <div className="form-field auth-btns">
-            <button type="submit">Sign Up</button>
+            <button type="submit">Log In</button>
           </div>
         </form>
       </div>
@@ -76,4 +75,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default Login;
